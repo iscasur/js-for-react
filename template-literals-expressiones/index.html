@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Template Literales - Expresiones</title>
+  </head>
+  <body>
+    <script>
+      const nombre = "Israel";
+      console.log(`Mi nombre es ${nombre}`);
+      console.log(`Mi nombre es ${31}`);
+      console.log(`Este es el ${"Curso de Js para React"}`);
+      console.log(`Mi apellido es ${(x = "Castro")}`);
+      console.log(
+        `Mi usuario en Ig es ${(function user() {
+          return "iscasur";
+        })()}`
+      );
+      console.log(
+        `Mi usuario en Tw es ${(function () {
+          return "iscasur";
+        })()}`
+      );
+      console.log(
+        `Mi usuario en Fb es ${(() => {
+          return "iscasur";
+        })()}`
+      );
+      console.log(`Mi nombre es ${true && "Israel (ternario)"}`);
+      console.log(`Mi nombre es ${false ? "Israel (true)" : "Israel (false)"}`);
+      console.log(
+        `Mi nombre es ${["a", "b"].map((letra) => `${letra}-styled`)}`
+      );
+    </script>
+  </body>
+</html>
