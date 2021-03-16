@@ -2,50 +2,41 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Styled Components</title>
   </head>
   <body>
-    <div id="container"></div>
+    <div id="app"></div>
     <script>
-      function component(strings, ...dinamycValues) {
+      function component(strings, ...dynamicValues) {
         return function (props) {
           let newContent = strings.slice();
           console.log(newContent);
-          dinamycValues.forEach((value, index) => {
+          dynamicValues.forEach((value, index) => {
             newContent[index] += props[value];
           });
-          return newContent.join("");
+          return newContent.join('');
         };
       }
 
-      // const styled = {
-      //   h1: function (styles) {
-      //     return function (content) {
-      //       return `
-      //       <h1 style="${styles}">
-      //         ${content}
-      //       </h1>
-      //       `;
-      //     };
-      //   },
-      //   h2: "",
-      //   div: "",
-      // };
+      const tags = ['h1', 'h2', 'h3', 'div', 'section', 'p', 'span', 'img'];
 
-      const tags = ["h1", "h2", "h3", "p", "div", "section"];
+      const tagsSelfClosing = ['img'];
 
       function createdStyledApi(tags) {
         const styled = {};
 
-        // Recorremos el array, por cada etiqueta vamos a generar una propiedad en la variable styled
-        tags.forEach((tag) => {
+        // Recorremos el array, por cada etiqueta vamos a generar una variable styled
+        tags.forEach((tag, index) => {
           styled[tag] = function (styles) {
-            return (content) => `<${tag} style="${styles}">${content}</${tag}>`;
+            return tagsSelfClosing.includes(tags[index])
+              ? (content) => `<${tag} style="${styles}" src="${content}" />`
+              : (content) => `<${tag} style="${styles}">${content}</${tag}>`;
           };
         });
 
-        // Devolvemos styled
+        // devolvemos styled
         return styled;
       }
 
@@ -53,23 +44,55 @@
 
       const TitleStyled = styled.h1`
         font-family: system-ui;
-        color: orange;
-        font-size: 50px;
-        text-shadow: 2px 2px 0 black;
-        line-height: 100vh;
+        color: #00b19d;
+        font-size: 32px;
+        text-shadow: 2px 2px 10px #aaa;
+        margin: 0;
+      `;
+
+      const AvatarStyled = styled.img`
+        max-width: 100px;
+        border-radius: 50%;
+        border: 5px solid white;
+        box-shadow: 0 0 2px black;
+      `;
+
+      const DescriptionStyled = styled.p`
+        font-family: system-ui;
+        color: gray;
+        font-size: 18px;
+        margin: 0 0 16px;
+      `;
+
+      const SocialStyled = styled.span`
+        display: inline-block;
+        color: gray;
+        font-family: system-ui;
+        margin: 8px 0;
       `;
 
       const props = {
-        message: "No te rindas",
+        name: 'Israel Castro',
+        social: 'iscasur',
+        avatar:
+          'https://secure.gravatar.com/avatar/e77a4e18cccdc0e7ecc6235afae39a5f?s=300&d=mm&r=g',
+        description:
+          'I do accountant stuff 📊, and I am on the path to become a frontend web developer 💻.',
       };
 
-      const Title = component`<marquee> ${"message"} </marquee>`(props);
+      const Title = component`${'name'}`(props);
+      const Social = component`@${'social'}`(props);
+      const Text = component`${'description'}`(props);
+      const Avatar = component`${'avatar'}`(props);
 
       function render(component, container) {
-        container.innerHTML = component;
+        container.innerHTML += component;
       }
 
-      render(TitleStyled(Title), window.container);
+      render(AvatarStyled(Avatar), window.app);
+      render(TitleStyled(Title), window.app);
+      render(SocialStyled(Social), window.app);
+      render(DescriptionStyled(Text), window.app);
     </script>
   </body>
 </html>
